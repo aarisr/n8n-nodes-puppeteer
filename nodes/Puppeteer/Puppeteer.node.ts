@@ -646,3 +646,5 @@ export class Puppeteer implements INodeType {
 		return this.prepareOutputData(returnData);
 	}
 }
+
+export default Puppeteer;
