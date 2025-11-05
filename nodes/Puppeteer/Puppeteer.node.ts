@@ -285,7 +285,10 @@ async function processPageOperation(
 				}
 
 				if (fileName) {
-					screenshotOptions.path = fileName;
+					// Puppeteer's ScreenshotOptions.path is typed as a template-literal
+					// based union in some versions. Cast to any here to avoid build
+					// failures in environments where the narrow template type is used.
+					screenshotOptions.path = fileName as any;
 				}
 
 				const screenshot = await page.screenshot(screenshotOptions);
@@ -620,7 +623,7 @@ export class Puppeteer implements INodeType {
 			for (let i = 0; i < items.length; i += batchSize) {
 				const batch = items.slice(i, i + batchSize);
 				const results = await Promise.all(
-					batch.map((item, idx) => processItem(item, i + idx)),
+					batch.map((item: INodeExecutionData, idx: number) => processItem(item, i + idx)),
 				);
 				if (results?.length) {
 					returnData.push(...results.flat());
