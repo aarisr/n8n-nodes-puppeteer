@@ -522,9 +522,9 @@ export class Puppeteer implements INodeType {
 
 		let browser: Browser;
 		try {
-			if (browserWSEndpoint) {
+			if (browserWSEndpoint || !!(globalThis as any).process?.env?.N8N_PUPPETEER_BROWSER_WS_ENDPOINT) {
 				browser = await puppeteer.connect({
-					browserWSEndpoint,
+					browserWSEndpoint: browserWSEndpoint || (globalThis as any).process?.env?.N8N_PUPPETEER_BROWSER_WS_ENDPOINT,
 					protocolTimeout,
 				});
 			} else {
@@ -629,11 +629,11 @@ export class Puppeteer implements INodeType {
 		} finally {
 			if (browser) {
 				try {
-					if (browserWSEndpoint) {
+					if (browserWSEndpoint || !!(globalThis as any).process?.env?.N8N_PUPPETEER_BROWSER_WS_ENDPOINT) {
 						await browser.disconnect();
 					} else {
 						await browser.close();
-					}	
+					}
 				} catch (error) {
 					console.error('Error closing browser:', error);
 				}
