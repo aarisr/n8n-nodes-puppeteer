@@ -15,7 +15,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "npm run watch",
-    "build": "tsc && gulp",
+  "build": "tsc && node ./scripts/copy-icons.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "lintfix": "tslint --fix -p tsconfig.json -c tslint.json",
     "nodelinter": "nodelinter",
